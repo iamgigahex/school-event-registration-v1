@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="row container d-flex justify-content-center">
+            <div class="col-md-12">
+                <div class="card">
+                   <div class="card-header">
+                        <h4>Event Information</h4>
+                    </div>
+                    <div class="card-body">
+                                                      <div class="row">
+                                    <div class="col-sm-6">
+                                        <p class="mb-1 h5">Event</p>
+                                        <h6 class="text-muted mb-4 text-capitalize">{{ event.event_name}}</h6>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p class="mb-1 h5">Location</p>
+                                        <h6 class="text-muted mb-4">{{ event.event_location }}</h6>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p class="mb-1 h5">Date & Time</p>
+                                        <h6 class="text-muted mb-4">{{ event.event_date_time }}</h6>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p class="mb-1 h5">Max Participants allowed</p>
+                                        <h6 class="text-muted mb-4">{{ event.max_participants }}</h6>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p class="mb-1 h5">Description</p>
+                                        <h6 class="text-muted mb-4">{{ event.event_description }}</h6>
+                                    </div>
+                                </div>
+
+                                 {% if participants %}
+                                     <p class="h5 mt-4">Participants</p>
+                                    <table class="table table-striped caption-top ">
+                                    <caption></caption>
+                                        <thead>
+                                            <tr>
+                                                <th>Profile Picture</th>
+                                                <th>Full Name</th>
+                                                <th>Email</th>
+                                                <th>Phone Number</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for participant in participants %}
+                                                <tr class="align-middle">
+                                                    <td>
+                                                        {% if participant.profile_picture %}
+                                                            <img width="80" src="{{ participant.profile_picture.url }}" alt="{{ participant.user.get_full_name }}" class="img-thumbnail rounded">
+                                                        {% else %}
+                                                            <img width="80" src="{% static 'images/place_holder.jpeg' %}" alt="Placeholder" class="img-thumbnail rounded">
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>{{ participant.get_full_name }}</td>
+                                                    <td>{{ participant.email }}</td>
+                                                    <td>{{ participant.phone_number }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                {% else %}
+                                    <p>No participants registered for this event.</p>
+                                {% endif %}
+                    </div>
+{#                    <div class="row m-l-0 m-r-0">#}
+{#                        <div class="col-sm-8">#}
+{#                            <div class="card-block">#}
+{#                                <div class="row">#}
+{#                                    <div class="col-12">#}
+{#                                        <p class="m-b-10 f-w-600 text-muted">{{ participant.get_events_list|join:' | ' }}</p>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

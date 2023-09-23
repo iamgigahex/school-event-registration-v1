@@ -1,0 +1,41 @@
+<div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card border-0 shadow rounded-3 my-5">
+            <div class="card-body p-4 p-sm-5">
+                <h5 class="card-title text-center mb-5 fw-light fs-5">
+                    {% if request.resolver_match.url_name == "login" %}Sign In{% else %}Sign Up{% endif %}</h5>
+                {% include 'partials/messages.html' %}
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {% for err in form.non_field_errors %}
+                            <p class="form-error">{{ err }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <form method="post">{% csrf_token %}
+                    {% for field in form %}
+                        <div class="form-floating mb-3">
+                            <input type="{{ field.widget_type }}" class="form-control" id="{{ field.id_for_label }}"
+                                   name="{{ field.name }}">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            <div class="text-danger">
+                                <small>{{ field.errors }}</small>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="d-grid">
+                        <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">
+                            {% if request.resolver_match.url_name == "login" %}Sign In{% else %}Sign
+                                Up{% endif %}</button>
+                    </div>
+                    <hr class="mb-2">
+                    {% if request.resolver_match.url_name == "register" %}
+                    <p>Already have an account, try to <a href="{% url 'login' %}">login</a></p>
+                    {% else %}
+                    <p>Don't have an account, create a new <a href="{% url 'register' %}">account</a></p>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

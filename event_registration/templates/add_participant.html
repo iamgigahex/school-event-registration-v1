@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <h4>Add Participant to {{ event.event_name }}</h4>
+        </div>
+        <div class="card-body">
+        <div class="row">
+            <div class="col col-sm-10 col-md-9 col-lg-7 mx-auto">
+
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            <strong>Error:</strong> {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+{#                    {{ form.as_p }}#}
+
+                  <div class="mb-3">
+                    <label for="id_first_name" class="form-label">First Name</label>
+                    <input type="text" class="form-control" name="first_name" id="id_first_name" maxlength="60" required />
+                  </div>
+                    <div class="mb-3">
+                    <label for="id_last_name" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" name="last_name" id="id_last_name" maxlength="60" required/>
+                  </div>
+                     <div class="mb-3">
+                    <label for="id_profile_picture" class="form-label">Profile Picture</label>
+                         <input type="file" class="form-control" name="profile_picture" accept="image/*" id="id_profile_picture">
+                  </div>
+                    <div class="mb-3">
+                    <label for="id_email" class="form-label">Email</label>
+                    <input type="text" class="form-control"  name="email" id="id_email" maxlength="254" required />
+                        {% if form.errors.email %}<p class="text-danger">{{ form.errors.email.as_text }}</p>{% endif %}
+                  </div>
+                   <div class="mb-3">
+                    <label for="id_phone_number" class="form-label">Phone Number</label>
+                    <input type="text" class="form-control" name="phone_number" id="id_phone_number" maxlength="60" required/>
+                  </div>
+                <div class="d-flex justify-content-between">
+                    <a href="{% url 'event-detail' event.id %}" class="btn btn-secondary">Back to Event Details</a>
+                    <button type="submit" class="btn btn-success">Add Participant</button>
+                </div>
+
+                </form>
+            </div>
+        </div>
+
+
+
+        </div>
+    </div>
+{% endblock content %}

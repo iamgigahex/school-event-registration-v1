@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    {% include 'partials/messages.html' %}
+    {% if user.is_authenticated %}
+    <div class="card mb-5">
+        <div class="card-header">
+            <h4>Bulk Upload</h4>
+        </div>
+        <div class="card-body">
+            <form action={% url 'bulk_upload' %} method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    {% for field in bulk_upload_form %}
+                    <div class="col">
+                        {{ field.errors }}
+                        {{ field.label_tag }} {{ field }}
+                        {% if field.help_text %}
+                        <p class="help">{{ field.help_text|safe }}</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <input type="submit" class="mt-3 btn btn-success" value="Submit">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% endif %}
+    <div class="card">
+        <div class="card-header">
+            <h4>Search Events</h4>
+        </div>
+        <div class="card-body">
+            <form>
+              <div class="row">
+                  {% if user.is_authenticated %}
+                    <div class="col"><a href="{% url 'event-create' %}" class="btn btn-primary">Register new Event </a></div>
+                  {% endif %}
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="Search by event name" name="event_name">
+                </div>
+                <div class="col">
+                    <input type="date" placeholder="Date" class="form-control text-uppercase" id="event_date" name="event_date">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-success">Search</button>
+                </div>
+              </div>
+            </form>
+            <table class="table table-striped caption-top">
+            <caption></caption>
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Event Name</th>
+            <th scope="col">Location</th>
+            <th scope="col">Date & Time</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if object_list|length %}
+        {% for event in object_list %}
+            <tr class="align-middle">
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>
+                {% if user.is_authenticated %}
+                    <a  href="{{ event.get_absolute_url }}" class="link-secondary text-capitalize">{{ event.event_name }}</a>
+                {% else %}
+                    <span class="text-capitalize">{{ event.event_name }}</span>
+
+                {% endif %}
+                </td>
+                <td>{{ event.event_location }}</td>
+                <td>{{ event.event_date_time }}</td>
+                {% if user.is_authenticated %}
+                    <td><a href="{% url 'add_participant' event.id %}" class="btn btn-secondary btn-sm">Add Participant</a></td>
+                    <td><a href="{% url 'event-update' event.id %}" class="btn btn-secondary btn-sm">Update</a></td>
+
+                {% endif %}
+                 <td><a href="{{ event.get_absolute_url }}" class="btn btn-secondary btn-sm">Details</a></td>
+
+
+            </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="5" class="text-center">
+                No Records Found
+            </td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+        </div>
+    </div>
+
+{% endblock content %}
