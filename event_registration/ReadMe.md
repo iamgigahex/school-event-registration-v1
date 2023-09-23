@@ -106,3 +106,9 @@ python manage.py runserver
 http://localhost:8000/
 http://127.0.0.1:8000/
 ```
+
+### Sample csv format for uploading participants
+
+```
+First Name,Last Name,Profile picture,Email Address,Phone Number,Events
+```
