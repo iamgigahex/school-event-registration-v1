@@ -60,6 +60,8 @@
             <th scope="col">Event Name</th>
             <th scope="col">Location</th>
             <th scope="col">Date & Time</th>
+            <th scope="col">Available slots</th>
+
         </tr>
         </thead>
         <tbody>
@@ -77,6 +79,7 @@
                 </td>
                 <td>{{ event.event_location }}</td>
                 <td>{{ event.event_date_time }}</td>
+                <td>{{ event.get_available_slots }}</td>
                 {% if user.is_authenticated %}
                     <td><a href="{% url 'add_participant' event.id %}" class="btn btn-secondary btn-sm">Add Participant</a></td>
                     <td><a href="{% url 'event-update' event.id %}" class="btn btn-secondary btn-sm">Update</a></td>

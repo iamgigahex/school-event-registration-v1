@@ -20,6 +20,11 @@ class Events(models.Model):
     def get_absolute_url(self):
         return reverse('event-detail', args=[str(self.id)])
 
+    @property
+    def get_available_slots(self):
+        """Available slots for the event"""
+        return self.max_participants - self.events_participants.count()
+
 
 class Participant(models.Model):
     """
