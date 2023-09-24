@@ -112,3 +112,9 @@ http://127.0.0.1:8000/
 ```
 First Name,Last Name,Profile picture,Email Address,Phone Number,Events
 ```
+
+### Sample data
+
+```
+Sample data availble in /sample_data
+```
